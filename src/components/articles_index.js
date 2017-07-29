@@ -12,6 +12,15 @@ import MenuItem from 'material-ui/MenuItem';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import Slider from 'material-ui/Slider';
 
+
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import FlatButton from 'material-ui/FlatButton';
+
+import {GridList, GridTile} from 'material-ui/GridList';
+import IconButton from 'material-ui/IconButton';
+import Subheader from 'material-ui/Subheader';
+import StarBorder from 'material-ui/svg-icons/toggle/star-border';
+
 const styles = {
   headline: {
     fontSize: 24,
@@ -19,18 +28,42 @@ const styles = {
     marginBottom: 12,
     fontWeight: 400,
   },
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+  },
+  gridList: {
+    width: 500,
+    //height: 450,
+    overflowY: 'auto',
+  },
 };
 
 function handleActive(tab) {
   alert(`A tab with this route property ${tab.props['data-route']} was activated.`);
 }
 
+
 class ArticlesIndex extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { open: false };
+        this.state = { open: false, view: 'list' };
     }
+
+    setCard() {
+    this.setState({...this.state, view: 'card'});
+    }
+
+    setList() {
+    this.setState({...this.state, view: 'list'});
+    }
+
+    setTile() {
+    this.setState({...this.state, view: 'tile'});
+    }
+
 
     componentDidMount() {
         console.log('I was triggered during componentDidMount')
@@ -40,37 +73,20 @@ class ArticlesIndex extends Component {
     renderTab() {
         return (
               <Tabs>
-    <Tab label="Item One" >
-      <div>
-        <h2 style={styles.headline}>Tab One</h2>
-        <p>
-          This is an example tab.
-        </p>
-        <p>
-          You can put any sort of HTML or react component in here. It even keeps the component state!
-        </p>
-        <Slider name="slider0" defaultValue={0.5} />
-      </div>
+    <Tab label="List" 
+          onActive={this.setList.bind(this)}>
+
     </Tab>
-    <Tab label="Item Two" >
-      <div>
-        <h2 style={styles.headline}>Tab Two</h2>
-        <p>
-          This is another example tab.
-        </p>
-      </div>
+    <Tab label="Tile" 
+          onActive={this.setTile.bind(this)}>
+
     </Tab>
     <Tab
-      label="onActive"
+      label="Card"
       data-route="/home"
-      onActive={handleActive}
+      onActive={this.setCard.bind(this)}
     >
-      <div>
-        <h2 style={styles.headline}>Tab Three</h2>
-        <p>
-          This is a third example tab.
-        </p>
-      </div>
+
     </Tab>
   </Tabs>
         );
@@ -78,22 +94,80 @@ class ArticlesIndex extends Component {
 
     renderArticles() {
 
-        return _.map(this.props.articles, article => {
-            return (
-                <ListItem key={article.url}
-                    secondaryText={article.description}
-                    leftAvatar={<Avatar src={article.urlToImage} />}
-                    secondaryTextLines={2} >
 
-                    <a href={article.url} >
-                        {article.title}
-                    </a>
-                    {/* <Link to={`/news/${article.title}`}>
-                {article.title}
-                </Link>  */}
-                </ListItem>
-            );
-        });
+                    if (this.state.view === 'list') {
+                        return _.map(this.props.articles, article => {
+                return (
+                    <ListItem key={article.url}
+                        secondaryText={article.description}
+                        leftAvatar={<Avatar src={article.urlToImage} />}
+                        secondaryTextLines={2} >
+
+                        <a href={article.url} >
+                            {article.title}
+                        </a>
+                        {/* <Link to={`/news/${article.title}`}>
+                    {article.title}
+                    </Link>  */}
+                    </ListItem>
+                );
+                        });
+            } else if (this.state.view === 'tile') {
+
+return (
+
+  <div style={styles.root}>
+    <GridList
+      cellHeight={180}
+      style={styles.gridList}
+    >
+      <Subheader>December</Subheader>
+      {_.map(this.props.articles, article  => (
+        <GridTile
+          key={article.url}
+          title={article.description}
+          subtitle={<span>by <b>{article.author}</b></span>}
+          actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
+        >
+          <img src={article.urlToImage} />
+        </GridTile>
+      ))}
+    </GridList>
+  </div>
+);
+
+            } else if (this.state.view === 'card') {
+                 return _.map(this.props.articles, article => {
+                return (
+                  <Card>
+    <CardHeader
+      title="URL Avatar"
+      subtitle="Subtitle"
+      avatar="images/jsa-128.jpg"
+    />
+    <CardMedia
+      overlay={<CardTitle title="Overlay title" subtitle="Overlay subtitle" />}
+    >
+      <img src={article.urlToImage} alt="" />
+    </CardMedia>
+    <CardTitle title="Card title" subtitle="Card subtitle" />
+    <CardText>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
+      Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
+      Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
+    </CardText>
+    <CardActions>
+      <FlatButton label="Action1" />
+      <FlatButton label="Action2" />
+    </CardActions>
+  </Card>
+  );
+                 
+            });
+
+      
+    }
     }
 
     handleToggle() {
@@ -123,8 +197,8 @@ class ArticlesIndex extends Component {
                     width={200}
                     open={this.state.open}
                     onRequestChange={(open) => this.setState({ open })}>
-                    <MenuItem>Menu Item</MenuItem>
-                    <MenuItem>Menu Item 2</MenuItem>
+                    <MenuItem>BBC</MenuItem>
+                    <MenuItem>CNN</MenuItem>
                 </Drawer>
             </div>
         );
