@@ -29,4 +29,4 @@ ReactDOM.render(
     </BrowserRouter>
     </MuiThemeProvider>
   </Provider>
-  , document.querySelector('.container'));
+  , document.getElementById('root'));

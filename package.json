@@ -1,13 +1,15 @@
 {
-  "name": "redux-simple-starter",
+  "name": "react-news",
   "version": "1.0.0",
-  "description": "Simple starter package for Redux with React and Babel support",
-  "main": "index.js",
-  "repository": "git@github.com:StephenGrider/ReduxSimpleStarter.git",
+  "description": "A react js news web app",
+  "repository": "git@github.com:androidzenlab/react-news.git",
   "scripts": {
-    "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
-    "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js --recursive ./test",
-    "test:watch": "npm run test -- --watch"
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
   },
   "author": "",
   "license": "ISC",
@@ -21,21 +23,22 @@
     "jquery": "^2.2.1",
     "jsdom": "^8.1.0",
     "mocha": "^2.4.5",
-    "react-addons-test-utils": "^0.14.7",
-    "webpack": "^1.12.9",
-    "webpack-dev-server": "^1.14.0"
+    "react-addons-test-utils": "^0.14.7"
   },
   "dependencies": {
     "axios": "^0.16.1",
     "babel-preset-stage-1": "^6.1.18",
+    "gh-pages": "^1.0.0",
     "lodash": "^3.10.1",
     "material-ui": "^0.18.7",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-redux": "4.3.0",
     "react-router-dom": "^4.0.0",
+    "react-scripts": "^1.0.10",
     "react-tap-event-plugin": "^2.0.1",
     "redux": "^3.0.4",
     "redux-promise": "^0.5.3"
-  }
+  },
+  "homepage": "https://androidzenlab.github.io/react-news"
 }
