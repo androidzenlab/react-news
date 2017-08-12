@@ -4,18 +4,12 @@ import { connect } from "react-redux";
 import { fetchArticle } from "../actions";
 
 class ArticleShow extends Component {
-    // constructor(props) {
-    //     console.log('in article props is', props)
-    // }
-
 
     componentDidMount() {
         const { title } = this.props.match.params;
-        console.log('in article show title is', this.props.articles)
+
         // fetchArticle
-        // this.props.article
         const url = this.props.articles[title].url;
-        console.log('in article show url is', url)
         this.props.fetchArticle(url);
     }
 
